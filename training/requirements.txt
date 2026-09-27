@@ -1,0 +1,7 @@
+# Training/evaluation dependencies. The backend requirements are a subset;
+# install these to run training/train.py and training/evaluate.py.
+torch>=2.2
+transformers>=4.44
+seqeval>=1.2.2
+numpy>=1.26
+python-dotenv>=1.0

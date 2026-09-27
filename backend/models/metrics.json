@@ -1,0 +1,61 @@
+{
+  "summary": {
+    "precision": 0.806,
+    "recall": 0.7802,
+    "f1": 0.7929,
+    "accuracy": 0.9651
+  },
+  "per_entity": {
+    "Date": {
+      "precision": 0.8626,
+      "recall": 0.8177,
+      "f1": 0.8396,
+      "support": 192
+    },
+    "Designation": {
+      "precision": 0.6667,
+      "recall": 0.7027,
+      "f1": 0.6842,
+      "support": 74
+    },
+    "Location": {
+      "precision": 0.772,
+      "recall": 0.7322,
+      "f1": 0.7516,
+      "support": 407
+    },
+    "Measure": {
+      "precision": 0.8364,
+      "recall": 0.87,
+      "f1": 0.8529,
+      "support": 523
+    },
+    "Organization": {
+      "precision": 0.6783,
+      "recall": 0.6094,
+      "f1": 0.642,
+      "support": 256
+    },
+    "Person": {
+      "precision": 0.8729,
+      "recall": 0.8668,
+      "f1": 0.8699,
+      "support": 428
+    },
+    "Time": {
+      "precision": 0.75,
+      "recall": 0.4286,
+      "f1": 0.5455,
+      "support": 63
+    }
+  },
+  "model": "l3cube-pune/marathi-ner",
+  "trained": true,
+  "dataset": "L3Cube-MahaNER",
+  "counts": {
+    "train": 21494,
+    "validation": 1500,
+    "test": 1999,
+    "num_labels": 8
+  }
+}

@@ -1,0 +1,29 @@
+services:
+  backend:
+    build: ./backend
+    environment:
+      # Allow the frontend container (served on :8080) to call the API.
+      CORS_ORIGINS: http://localhost:8080,http://localhost:5173
+      MODEL_NAME: l3cube-pune/marathi-ner
+      MAX_LENGTH: "256"
+    ports:
+      - "8000:8000"
+    # Persist the HuggingFace model cache so it downloads only once.
+    volumes:
+      - hf-cache:/root/.cache/huggingface
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health').status==200 else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  hf-cache:

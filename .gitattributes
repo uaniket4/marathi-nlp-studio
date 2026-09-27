@@ -1,0 +1,13 @@
+# Normalize line endings. Text files are LF in the repo; Git converts on checkout.
+* text=auto eol=lf
+
+# Shell scripts must stay LF or they break under bash.
+*.sh text eol=lf
+
+# Windows batch files must stay CRLF.
+*.bat text eol=crlf
+
+# Treat these as binary (no line-ending conversion / diffing).
+*.png binary
+*.jpg binary
+*.ico binary

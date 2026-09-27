@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# Environment / secrets
+.env
+backend/.env
+
+# Model artifacts & data (downloaded / trained, not committed)
+backend/models/marathi-ner/
+backend/models/_checkpoints/
+# NOTE: backend/models/metrics.json IS committed — it holds the real, computed
+# seqeval numbers the Model page renders, and the deployed backend needs them.
+data/IOB/
+data/SOURCE_README.md
+data/NON_IOB/
+
+# HuggingFace cache
+.cache/
+
+# Node / frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

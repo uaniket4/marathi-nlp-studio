@@ -1,0 +1,18 @@
+{
+  "name": "L3Cube-MahaNER",
+  "language": "Marathi",
+  "splits": { "train": 21494, "validation": 1500, "test": 1999 },
+  "token_counts": { "train": 199256, "validation": 13966, "test": 18734 },
+  "entity_types": ["Date", "Designation", "Location", "Measure", "Organization", "Person", "Time"],
+  "entity_distribution_train": {
+    "Measure": 5824,
+    "Person": 4775,
+    "Location": 4461,
+    "Organization": 2741,
+    "Date": 1937,
+    "Designation": 838,
+    "Time": 633
+  },
+  "num_entity_classes": 7,
+  "source": "https://github.com/l3cube-pune/MarathiNLP"
+}
