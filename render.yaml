@@ -19,7 +19,7 @@ services:
         value: l3cube-pune/marathi-ner
       - key: MAX_LENGTH
         value: "256"
-      - key: HF_HOME                # writable cache; free tier has no persistent disk
-        value: /tmp/huggingface
+      - key: HF_HOME                # must match the Dockerfile's baked cache: the
+        value: /app/hf_cache        # image bakes the model here + runs HF offline
       - key: CORS_ORIGINS           # allow the deployed frontend
         value: https://marathi-nlp-studio.vercel.app
