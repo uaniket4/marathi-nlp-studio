@@ -28,9 +28,10 @@ RUN python -c "from transformers import AutoTokenizer, AutoModelForTokenClassifi
     AutoTokenizer.from_pretrained('${MODEL_NAME}'); \
     AutoModelForTokenClassification.from_pretrained('${MODEL_NAME}')"
 
-# From here on, never touch the network for model files — use the baked cache.
-ENV HF_HUB_OFFLINE=1 \
-    TRANSFORMERS_OFFLINE=1
+# The bake above warms the cache for fast starts. We deliberately do NOT force
+# HF offline mode: if the cache path differs at runtime (host injects its own
+# HF_HOME) the model downloads on first boot instead of hard-failing. On hosts
+# with a warm image the cached copy is used and no network call happens.
 
 # Port 8000 for docker compose; hosts that inject $PORT (Cloud Run sets 8080)
 # are honored automatically.
