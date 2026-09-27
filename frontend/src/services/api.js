@@ -4,16 +4,31 @@
 
 const BASE = import.meta.env.VITE_API_BASE || '/api'
 
+// Free backend hosts sleep when idle and take ~50s to wake; cap the wait so a
+// slow/unreachable backend surfaces a clear message instead of hanging forever.
+const DEFAULT_TIMEOUT_MS = 70000
+
 async function request(path, options = {}) {
+  const { timeoutMs = DEFAULT_TIMEOUT_MS, ...fetchOpts } = options
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
   let resp
   try {
     resp = await fetch(`${BASE}${path}`, {
       headers: { 'Content-Type': 'application/json' },
-      ...options,
+      signal: controller.signal,
+      ...fetchOpts,
     })
   } catch (e) {
-    // Network-level failure: backend unreachable.
+    // Aborted (timeout) or network-level failure: backend unreachable/asleep.
+    if (e.name === 'AbortError') {
+      throw new Error(
+        'The server is taking too long to respond. Free hosting sleeps when idle — wait a moment and try again.'
+      )
+    }
     throw new Error('Cannot reach the server. Is the backend running?')
+  } finally {
+    clearTimeout(timer)
   }
 
   let data = null
@@ -73,5 +88,6 @@ export function getModelInfo() {
 }
 
 export function getHealth() {
-  return request('/health', { method: 'GET' })
+  // Short timeout: this polls every 15s, so a hung request must not pile up.
+  return request('/health', { method: 'GET', timeoutMs: 8000 })
 }
