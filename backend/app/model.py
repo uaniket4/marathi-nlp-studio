@@ -22,9 +22,20 @@ class NERModel:
     def __init__(self, model_name: str, max_length: int) -> None:
         self.model_name = model_name
         self.max_length = max_length
+        s = get_settings()
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModelForTokenClassification.from_pretrained(model_name)
+        # low_cpu_mem_usage streams the weights in, cutting peak RAM on load so
+        # the model fits on small (~512 MB) hosts.
+        self.model = AutoModelForTokenClassification.from_pretrained(
+            model_name, low_cpu_mem_usage=True
+        )
         self.model.eval()  # inference mode; disables dropout
+        if s.QUANTIZE:
+            # int8 dynamic quantization of the Linear layers: ~4x smaller weights
+            # and faster CPU inference, at a small accuracy cost. Opt-in via env.
+            self.model = torch.quantization.quantize_dynamic(
+                self.model, {torch.nn.Linear}, dtype=torch.qint8
+            )
         self.id2label: Dict[int, str] = {
             int(k): v for k, v in self.model.config.id2label.items()
         }
@@ -84,3 +95,7 @@ def load_metrics() -> Optional[dict]:
 
 # Torch runs single-threaded inference deterministically here; keep it lean.
 torch.set_grad_enabled(False)
+try:
+    torch.set_num_threads(max(1, get_settings().TORCH_THREADS))
+except Exception:  # noqa: BLE001 - threading hint is best-effort
+    pass

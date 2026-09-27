@@ -4,8 +4,8 @@ Marathi NLP Studio is split across two hosts, because the PyTorch model is far
 too large for Vercel's serverless size limit:
 
 - **Frontend (static Vite build) → Vercel** — already deployed.
-- **Backend (FastAPI + PyTorch) → Hugging Face Spaces (Docker)** — one-time
-  manual push (needs your Hugging Face login).
+- **Backend (FastAPI + PyTorch) → Render (Docker, free plan)** — connect the repo
+  as a Blueprint (one dashboard step).
 
 ---
 
@@ -14,56 +14,49 @@ too large for Vercel's serverless size limit:
 | Piece    | URL                                                      |
 | -------- | -------------------------------------------------------- |
 | Frontend | https://marathi-nlp-studio.vercel.app                    |
-| Backend  | https://uaniket4-marathi-nlp-studio.hf.space *(create it below)* |
-
-The frontend is built with `VITE_API_BASE = https://uaniket4-marathi-nlp-studio.hf.space`,
-so the Space **must** be owner `uaniket4`, name `marathi-nlp-studio` for the two
-to connect without a rebuild.
+| Backend  | `https://<your-service>.onrender.com` *(create it below)* |
 
 ---
 
-## Backend → Hugging Face Spaces
+## Backend → Render
 
-The `backend/` folder is Space-ready: `backend/Dockerfile` (CPU torch, listens on
-8000) and `backend/README.md` (Space card with `sdk: docker`, `app_port: 8000`).
+`render.yaml` (repo root) is a Blueprint that builds `backend/Dockerfile` on
+Render's **free** plan. To keep torch + BERT inside the free tier's 512 MB RAM it
+sets `QUANTIZE=1` (int8 dynamic quantization) and `TORCH_THREADS=1`.
 
-**1. Log in and create the Space**
+**1. Create the service**
+
+- Render Dashboard → **New → Blueprint** → connect this GitHub repo.
+- Render reads `render.yaml` and creates the `marathi-nlp-studio` web service.
+- First build installs CPU torch + transformers; first boot downloads the
+  ~500 MB model. The free plan spins down after 15 min idle, so the first request
+  after a cold start is slow (it re-downloads the model — the free tier has no
+  persistent disk).
+
+**2. Note the URL** Render assigns `https://<service>.onrender.com`. Confirm
+`CORS_ORIGINS` (set by the Blueprint to the Vercel URL) matches your frontend.
+
+**3. Point the frontend at it**
 
 ```bash
-hf auth login                 # paste a token from https://huggingface.co/settings/tokens (write)
-hf repo create marathi-nlp-studio --repo-type space --space_sdk docker
+cd frontend
+vercel env rm VITE_API_BASE production
+echo "https://<your-service>.onrender.com" | vercel env add VITE_API_BASE production
+vercel deploy --prod
 ```
-
-**2. Push the backend subtree to the Space**
-
-From the repo root:
-
-```bash
-git remote add space https://huggingface.co/spaces/uaniket4/marathi-nlp-studio
-git subtree push --prefix backend space main
-```
-
-(If the Space already has a commit and the push is rejected, run
-`git push space "$(git subtree split --prefix backend):main" --force`.)
-
-**3. Allow the frontend origin (CORS)**
-
-In the Space UI → **Settings → Variables and secrets**, add:
-
-| Variable       | Value                                   |
-| -------------- | --------------------------------------- |
-| `CORS_ORIGINS` | `https://marathi-nlp-studio.vercel.app` |
-
-(Use `*` to allow any origin.) The Space rebuilds automatically. First startup
-downloads the ~500 MB model, so the first request after a cold start is slow.
 
 **4. Verify**
 
 ```bash
-curl https://uaniket4-marathi-nlp-studio.hf.space/health
+curl https://<your-service>.onrender.com/health
 ```
 
 Then open the frontend — all four tools should return live results.
+
+> **512 MB caveat:** even quantized, torch's peak memory while loading the model
+> can brush against the free tier's limit. If Render's logs show the service
+> killed/OOM on boot, bump it to the Starter plan, or use a host with more free
+> RAM (Google Cloud Run: set memory 1–2 GB, scales to zero, generous free quota).
 
 ---
 
@@ -72,7 +65,6 @@ Then open the frontend — all four tools should return live results.
 ```bash
 cd frontend
 vercel link --project marathi-nlp-studio
-vercel env add VITE_API_BASE production   # value: the Space URL above
 vercel deploy --prod
 ```
 
@@ -83,17 +75,3 @@ routes (`/search`, `/assistant`, …) don't 404 on refresh.
 > pushes to build automatically, set **Project → Settings → Build & Deployment →
 > Root Directory = `frontend`** in the Vercel dashboard (CLI deploys from
 > `frontend/` already work without this).
-
----
-
-## If you change the backend URL
-
-If the Space ends up at a different URL, update it in one place and redeploy the
-frontend:
-
-```bash
-cd frontend
-vercel env rm VITE_API_BASE production
-echo "https://<your-space-url>" | vercel env add VITE_API_BASE production
-vercel deploy --prod
-```

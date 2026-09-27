@@ -1,14 +1,3 @@
----
-title: Marathi NLP Studio API
-emoji: 🪔
-colorFrom: indigo
-colorTo: purple
-sdk: docker
-app_port: 8000
-pinned: false
-license: mit
----
-
 # Marathi NLP Studio — API
 
 FastAPI backend for **Marathi NLP Studio**: Named Entity Recognition over Marathi
@@ -16,8 +5,8 @@ text using a transformer fine-tuned on **L3Cube-MahaNER**
 (`l3cube-pune/marathi-ner`, `BertForTokenClassification`). One shared model
 instance serves every endpoint.
 
-This Space is the backend only. The UI is a separate static frontend (deployed on
-Vercel) that calls this API.
+This is the backend only. The UI is a separate static frontend (deployed on
+Vercel) that calls this API. See [../DEPLOY.md](../DEPLOY.md) for hosting.
 
 ## Endpoints
 
@@ -33,13 +22,24 @@ Vercel) that calls this API.
 
 Interactive docs at `/docs`.
 
-## Configuration (Space → Settings → Variables)
+## Configuration (environment variables)
 
-| Variable      | Example                                  | Notes                                  |
-| ------------- | ---------------------------------------- | -------------------------------------- |
-| `CORS_ORIGINS`| `https://your-app.vercel.app`            | Comma-separated; `*` allows any origin |
-| `MODEL_NAME`  | `l3cube-pune/marathi-ner`                | Default; the official MahaNER model    |
-| `MAX_LENGTH`  | `256`                                    | Tokenizer max length                   |
+| Variable       | Default                     | Notes                                        |
+| -------------- | --------------------------- | -------------------------------------------- |
+| `CORS_ORIGINS` | `http://localhost:5173,…`   | Comma-separated; `*` allows any origin       |
+| `MODEL_NAME`   | `l3cube-pune/marathi-ner`   | The official MahaNER model                   |
+| `MAX_LENGTH`   | `256`                       | Tokenizer max length                         |
+| `QUANTIZE`     | `0`                         | `1` = int8 dynamic quantization (small hosts)|
+| `TORCH_THREADS`| `1`                         | CPU threads for inference                    |
+| `HF_HOME`      | (torch default)             | Model cache dir; set to a writable path      |
 
-The model (~500 MB) downloads on first startup and is cached in `HF_HOME`
-(`/tmp/huggingface`); the first request after a cold start takes longer.
+The model (~500 MB) downloads on first startup and is cached in `HF_HOME`; the
+first request after a cold start takes longer.
+
+## Run locally
+
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn app.main:app --port 8000        # http://localhost:8000/docs
+```

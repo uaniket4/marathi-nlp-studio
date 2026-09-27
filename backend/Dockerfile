@@ -22,9 +22,9 @@ ENV MODEL_NAME=l3cube-pune/marathi-ner \
     HF_HOME=/tmp/huggingface \
     CORS_ORIGINS=http://localhost:5173,http://localhost:8080
 
-# Port 8000 for docker compose; on HF Spaces set `app_port: 8000` in the Space
-# README so the platform proxies to it.
+# Port 8000 for docker compose; hosts that inject $PORT (Render, Cloud Run) are
+# honored automatically. On HF Spaces set `app_port: 8000` in the Space README.
 EXPOSE 8000
 
 # Model weights are downloaded on first startup and cached in HF_HOME.
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

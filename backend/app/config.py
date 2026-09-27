@@ -63,6 +63,13 @@ class Settings:
     MAX_TEXT_CHARS: int = int(_get("MAX_TEXT_CHARS", "5000"))
     CORS_ORIGINS: str = _get("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
 
+    # --- Runtime footprint (small free hosts) ---
+    # int8 dynamic quantization shrinks the model's steady-state RAM and speeds
+    # up CPU inference; low_cpu_mem_usage streams weights to cut peak load memory.
+    # Both help fit torch + BERT on tiny (~512 MB) instances.
+    QUANTIZE: bool = _get("QUANTIZE", "0").lower() in ("1", "true", "yes")
+    TORCH_THREADS: int = int(_get("TORCH_THREADS", "1"))
+
     @property
     def cors_origins_list(self) -> list[str]:
         return [o.strip() for o in self.CORS_ORIGINS.split(",") if o.strip()]
