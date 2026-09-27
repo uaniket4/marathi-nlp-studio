@@ -1,5 +1,5 @@
 # Backend image: FastAPI + transformers (CPU inference).
-# Runs locally (docker compose) and on Hugging Face Spaces (Docker SDK) as-is.
+# Runs locally (docker compose) and on Cloud Run / any Docker host.
 FROM python:3.12-slim
 
 WORKDIR /app
@@ -15,16 +15,25 @@ COPY app ./app
 COPY data ./data
 COPY models ./models
 
-# HF Spaces runs the container with a read-only home; keep the model cache in a
-# writable location. /tmp works both there and under docker compose locally.
-ENV MODEL_NAME=l3cube-pune/marathi-ner \
+ARG MODEL_NAME=l3cube-pune/marathi-ner
+ENV MODEL_NAME=${MODEL_NAME} \
     MAX_LENGTH=256 \
-    HF_HOME=/tmp/huggingface \
+    HF_HOME=/app/hf_cache \
     CORS_ORIGINS=http://localhost:5173,http://localhost:8080
 
-# Port 8000 for docker compose; hosts that inject $PORT (Render, Cloud Run) are
-# honored automatically. On HF Spaces set `app_port: 8000` in the Space README.
+# Bake the model into the image at build time. Cloud Run scales to zero, so this
+# avoids re-downloading ~500 MB on every cold start and keeps startup fast and
+# network-independent (the RUN below is the only time weights are fetched).
+RUN python -c "from transformers import AutoTokenizer, AutoModelForTokenClassification; \
+    AutoTokenizer.from_pretrained('${MODEL_NAME}'); \
+    AutoModelForTokenClassification.from_pretrained('${MODEL_NAME}')"
+
+# From here on, never touch the network for model files — use the baked cache.
+ENV HF_HUB_OFFLINE=1 \
+    TRANSFORMERS_OFFLINE=1
+
+# Port 8000 for docker compose; hosts that inject $PORT (Cloud Run sets 8080)
+# are honored automatically.
 EXPOSE 8000
 
-# Model weights are downloaded on first startup and cached in HF_HOME.
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
