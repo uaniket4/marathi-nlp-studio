@@ -5,10 +5,11 @@ import PageHeader from '../components/PageHeader'
 import ChatMessage from '../components/ChatMessage'
 
 const SUGGESTIONS = [
+  'ताप किंवा खोकला असल्यास काय करावे?',
+  'मधुमेह नियंत्रणासाठी काय करावे?',
+  'लसीकरण का महत्त्वाचे आहे?',
   'भारताची राजधानी कोणती?',
   'सचिन तेंडुलकर कोण आहेत?',
-  'शिवाजी महाराजांबद्दल सांगा',
-  'ताजमहाल कुठे आहे?',
 ]
 
 export default function Assistant() {
