@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react'
-import { search, getModelInfo } from '../services/api'
+import { useEffect, useRef, useState } from 'react'
+import { search, searchDocument, uploadDocument, getModelInfo } from '../services/api'
 import PageHeader from '../components/PageHeader'
 import SearchResult from '../components/SearchResult'
+import PipelineSteps from '../components/PipelineSteps'
 import { prettyLabel, entityStyle } from '../services/entityStyles'
 
 const EXAMPLES = ['मुंबई', 'नरेंद्र मोदी', 'क्रिकेट', 'भारत']
+const MAX_CHARS = 5000
 
 export default function Search() {
+  const [mode, setMode] = useState('corpus') // 'corpus' | 'document'
   const [query, setQuery] = useState('')
   const [types, setTypes] = useState([]) // available entity types from the model
   const [selected, setSelected] = useState(new Set())
@@ -14,6 +17,12 @@ export default function Search() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [searched, setSearched] = useState(false)
+
+  // Document-mode state.
+  const [docText, setDocText] = useState('')
+  const [docName, setDocName] = useState('')
+  const [uploading, setUploading] = useState(false)
+  const fileRef = useRef(null)
 
   useEffect(() => {
     getModelInfo()
@@ -29,17 +38,50 @@ export default function Search() {
     })
   }
 
+  function switchMode(next) {
+    setMode(next)
+    setData(null)
+    setError('')
+    setSearched(false)
+  }
+
+  async function onFile(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    setError('')
+    try {
+      const res = await uploadDocument(file)
+      setDocText(res.text)
+      setDocName(res.filename)
+      if (res.truncated) {
+        setError(`Loaded “${res.filename}”, trimmed to the first ${MAX_CHARS} characters.`)
+      }
+    } catch (err) {
+      setError(err.message || 'Could not read that file.')
+    } finally {
+      setUploading(false)
+      if (fileRef.current) fileRef.current.value = ''
+    }
+  }
   async function run(q = query) {
     const trimmed = q.trim()
     if (!trimmed) {
       setError('Enter a search query.')
       return
     }
+    if (mode === 'document' && !docText.trim()) {
+      setError('Paste or upload a document to search within.')
+      return
+    }
     setLoading(true)
     setError('')
     setSearched(true)
     try {
-      const res = await search(trimmed, [...selected], 10)
+      const res =
+        mode === 'document'
+          ? await searchDocument(docText, trimmed, [...selected], 10)
+          : await search(trimmed, [...selected], 10)
       setData(res)
     } catch (e) {
       setError(e.message || 'Search failed. Please try again.')
@@ -53,8 +95,59 @@ export default function Search() {
     <div>
       <PageHeader
         title="Search"
-        subtitle="Entity-aware search over a Marathi demo corpus. Ranking combines entity and keyword matches — this is lexical + entity matching, not semantic search."
+        subtitle="Entity-aware search over a Marathi demo corpus or your own document. Ranking combines entity and keyword matches — this is lexical + entity matching, not semantic search."
       />
+
+      {/* Mode toggle */}
+      <div className="mb-4 inline-flex rounded-lg border border-gray-200 p-0.5 dark:border-gray-800">
+        {[
+          ['corpus', 'Demo corpus'],
+          ['document', 'My document'],
+        ].map(([val, label]) => (
+          <button
+            key={val}
+            type="button"
+            onClick={() => switchMode(val)}
+            aria-pressed={mode === val}
+            className={`rounded-md px-3 py-1.5 text-sm transition-colors ${
+              mode === val
+                ? 'bg-accent text-white'
+                : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Document input (document mode only) */}
+      {mode === 'document' && (
+        <div className="mb-4 space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <input
+              ref={fileRef}
+              type="file"
+              accept=".txt,.md,.pdf,.docx"
+              onChange={onFile}
+              className="block text-sm text-gray-600 file:mr-3 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-1.5 file:text-sm file:text-gray-700 hover:file:bg-gray-200 dark:text-gray-400 dark:file:bg-gray-800 dark:file:text-gray-200"
+            />
+            {uploading && <span className="text-xs text-gray-400">Reading…</span>}
+            {docName && !uploading && (
+              <span className="text-xs text-gray-500 dark:text-gray-400">Loaded: {docName}</span>
+            )}
+          </div>
+          <textarea
+            value={docText}
+            onChange={(e) => setDocText(e.target.value.slice(0, MAX_CHARS))}
+            rows={6}
+            placeholder="येथे मजकूर पेस्ट करा किंवा वरून .txt / .pdf / .docx फाईल अपलोड करा…"
+            className="input resize-y leading-relaxed"
+          />
+          <p className="text-right text-xs text-gray-400 dark:text-gray-500">
+            {docText.length} / {MAX_CHARS}
+          </p>
+        </div>
+      )}
 
       {/* Search bar */}
       <form
@@ -80,23 +173,25 @@ export default function Search() {
         </button>
       </form>
 
-      {/* Examples */}
-      <div className="mt-2 flex flex-wrap items-center gap-2">
-        <span className="text-xs text-gray-400 dark:text-gray-500">Try:</span>
-        {EXAMPLES.map((ex) => (
-          <button
-            key={ex}
-            type="button"
-            onClick={() => {
-              setQuery(ex)
-              run(ex)
-            }}
-            className="rounded-full border border-gray-300 px-2.5 py-0.5 text-xs text-gray-600 hover:border-accent hover:text-accent dark:border-gray-700 dark:text-gray-300"
-          >
-            {ex}
-          </button>
-        ))}
-      </div>
+      {/* Examples (corpus mode) */}
+      {mode === 'corpus' && (
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <span className="text-xs text-gray-400 dark:text-gray-500">Try:</span>
+          {EXAMPLES.map((ex) => (
+            <button
+              key={ex}
+              type="button"
+              onClick={() => {
+                setQuery(ex)
+                run(ex)
+              }}
+              className="rounded-full border border-gray-300 px-2.5 py-0.5 text-xs text-gray-600 hover:border-accent hover:text-accent dark:border-gray-700 dark:text-gray-300"
+            >
+              {ex}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Entity-type filters (from the actual model labels) */}
       {types.length > 0 && (
@@ -154,9 +249,14 @@ export default function Search() {
 
         {!loading && data && (
           <>
+            {data.steps && <PipelineSteps steps={data.steps} title="How the search works" />}
+
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
               <span>
                 {data.total} result{data.total === 1 ? '' : 's'} for “{data.query}”
+                {typeof data.passage_count === 'number'
+                  ? ` across ${data.passage_count} passage${data.passage_count === 1 ? '' : 's'}`
+                  : ''}
               </span>
               {data.query_entities?.length > 0 && (
                 <span>
@@ -172,7 +272,7 @@ export default function Search() {
 
             {data.results.length === 0 ? (
               <p className="empty">
-                No documents matched. Try a different query or remove type filters.
+                No {mode === 'document' ? 'passages' : 'documents'} matched. Try a different query or remove type filters.
               </p>
             ) : (
               data.results.map((r) => <SearchResult key={r.id} result={r} />)

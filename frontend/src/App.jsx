@@ -3,11 +3,9 @@ import { Routes, Route, Outlet, useLocation } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
 import Overview from './pages/Overview'
 import NerPlayground from './pages/NerPlayground'
-import InformationExtraction from './pages/InformationExtraction'
 import Search from './pages/Search'
 import Assistant from './pages/Assistant'
 import ModelDataset from './pages/ModelDataset'
-import About from './pages/About'
 import NotFound from './pages/NotFound'
 
 function Shell() {
@@ -79,11 +77,9 @@ export default function App() {
       <Route element={<Shell />}>
         <Route index element={<Overview />} />
         <Route path="playground" element={<NerPlayground />} />
-        <Route path="extract" element={<InformationExtraction />} />
         <Route path="search" element={<Search />} />
         <Route path="assistant" element={<Assistant />} />
         <Route path="model" element={<ModelDataset />} />
-        <Route path="about" element={<About />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

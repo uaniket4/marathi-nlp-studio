@@ -13,20 +13,30 @@ import logging
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from . import assistant as assistant_mod
+from . import pipeline as pipeline_mod
 from . import search as search_mod
 from .config import get_settings
 from .corpus import build_corpus, get_corpus
-from .inference import entity_statistics, group_by_type, predict
+from .documents import UnsupportedDocument, extract_text
+from .inference import (
+    build_steps,
+    entity_statistics,
+    group_by_type,
+    predict_with_trace,
+)
 from .model import get_load_error, get_model, load_metrics, load_model
 from .schemas import (
+    AnalyzeRequest,
+    AnalyzeResponse,
     AssistantRequest,
     AssistantResponse,
     DatasetInfoResponse,
+    DocumentSearchRequest,
     ExtractResponse,
     HealthResponse,
     ModelInfoResponse,
@@ -34,6 +44,7 @@ from .schemas import (
     PredictResponse,
     SearchRequest,
     SearchResponse,
+    UploadResponse,
 )
 
 logger = logging.getLogger("marathi_ner")
@@ -99,7 +110,10 @@ def root() -> dict:
         "endpoints": [
             "/predict",
             "/extract",
+            "/analyze",
             "/search",
+            "/upload-document",
+            "/search-document",
             "/assistant",
             "/model-info",
             "/dataset-info",
@@ -162,13 +176,37 @@ def predict_endpoint(req: PredictRequest) -> PredictResponse:
     if not text:
         raise HTTPException(status_code=422, detail="Text must not be empty.")
     try:
-        entities = predict(model, text)
+        entities, trace = predict_with_trace(model, text)
         statistics = entity_statistics(entities)
+        tokens = trace if req.explain else None
+        steps = build_steps(trace, entities) if req.explain else None
     except Exception:  # noqa: BLE001 - never leak stack traces to clients
         # Log the real traceback server-side; return a clean message to clients.
         logger.exception("Prediction failed for %d-char input", len(text))
         raise HTTPException(status_code=500, detail="Prediction failed. Please retry.")
-    return PredictResponse(text=req.text, entities=entities, statistics=statistics)
+    return PredictResponse(
+        text=req.text, entities=entities, statistics=statistics, tokens=tokens, steps=steps
+    )
+
+
+@app.post("/analyze", response_model=AnalyzeResponse)
+def analyze_endpoint(req: AnalyzeRequest) -> AnalyzeResponse:
+    """Run the syllabus-aligned classical NLP pipeline over the text.
+
+    Returns every stage (tokenization, morphology, stemming, n-gram LM, HMM POS,
+    NP chunking, NER, sentiment) with its real computed output. NER runs
+    internally, so the NER Playground gets entities + full pipeline in one call.
+    """
+    model = _require_model()
+    text = req.text.strip()
+    if not text:
+        raise HTTPException(status_code=422, detail="Text must not be empty.")
+    try:
+        result = pipeline_mod.analyze(model, text)
+    except Exception:  # noqa: BLE001 - never leak stack traces to clients
+        logger.exception("Pipeline analysis failed for %d-char input", len(text))
+        raise HTTPException(status_code=500, detail="Analysis failed. Please retry.")
+    return AnalyzeResponse(**result)
 
 
 def _require_model():
@@ -189,14 +227,21 @@ def extract_endpoint(req: PredictRequest) -> ExtractResponse:
     if not text:
         raise HTTPException(status_code=422, detail="Text must not be empty.")
     try:
-        entities = predict(model, text)
+        entities, trace = predict_with_trace(model, text)
         grouped = group_by_type(entities)
         statistics = entity_statistics(entities)
+        tokens = trace if req.explain else None
+        steps = build_steps(trace, entities, grouped) if req.explain else None
     except Exception:  # noqa: BLE001
         logger.exception("Extraction failed for %d-char input", len(text))
         raise HTTPException(status_code=500, detail="Extraction failed. Please retry.")
     return ExtractResponse(
-        text=req.text, entities=entities, grouped=grouped, statistics=statistics
+        text=req.text,
+        entities=entities,
+        grouped=grouped,
+        statistics=statistics,
+        tokens=tokens,
+        steps=steps,
     )
 
 
@@ -213,6 +258,49 @@ def search_endpoint(req: SearchRequest) -> SearchResponse:
         )
     except Exception:  # noqa: BLE001
         logger.exception("Search failed for query")
+        raise HTTPException(status_code=500, detail="Search failed. Please retry.")
+    return SearchResponse(**result)
+
+
+@app.post("/upload-document", response_model=UploadResponse)
+async def upload_document_endpoint(file: UploadFile = File(...)) -> UploadResponse:
+    """Extract plain text from an uploaded .txt / .pdf / .docx file."""
+    raw = await file.read()
+    if not raw:
+        raise HTTPException(status_code=422, detail="The uploaded file is empty.")
+    try:
+        text, truncated = extract_text(file.filename or "", raw, settings.MAX_TEXT_CHARS)
+    except UnsupportedDocument as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    except Exception:  # noqa: BLE001 - never leak stack traces to clients
+        logger.exception("Text extraction failed for %s", file.filename)
+        raise HTTPException(
+            status_code=422,
+            detail="Could not read that file. It may be corrupted or password-protected.",
+        )
+    if not text.strip():
+        raise HTTPException(
+            status_code=422,
+            detail="No readable text found in that file (it may be scanned images).",
+        )
+    return UploadResponse(
+        filename=file.filename or "document",
+        text=text,
+        char_count=len(text),
+        truncated=truncated,
+    )
+
+
+@app.post("/search-document", response_model=SearchResponse)
+def search_document_endpoint(req: DocumentSearchRequest) -> SearchResponse:
+    """Entity-aware search within a user-supplied document, with pipeline steps."""
+    model = _require_model()
+    try:
+        result = search_mod.search_in_text(
+            model, req.document, req.query, req.entity_types, req.limit
+        )
+    except Exception:  # noqa: BLE001
+        logger.exception("Document search failed")
         raise HTTPException(status_code=500, detail="Search failed. Please retry.")
     return SearchResponse(**result)
 

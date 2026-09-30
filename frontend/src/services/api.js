@@ -51,15 +51,24 @@ async function request(path, options = {}) {
   return data
 }
 
-export function predict(text) {
+export function predict(text, explain = false) {
   return request('/predict', {
     method: 'POST',
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text, explain }),
   })
 }
 
-export function extract(text) {
+export function extract(text, explain = false) {
   return request('/extract', {
+    method: 'POST',
+    body: JSON.stringify({ text, explain }),
+  })
+}
+
+// Full syllabus-aligned classical NLP pipeline (tokenize → morphology → stem →
+// n-gram → HMM POS → NP chunk → NER → sentiment). Also returns NER entities.
+export function analyze(text) {
+  return request('/analyze', {
     method: 'POST',
     body: JSON.stringify({ text }),
   })
@@ -72,7 +81,26 @@ export function search(query, entityTypes = [], limit = 10) {
   })
 }
 
-export function ask(context, question) {
+export function searchDocument(document, query, entityTypes = [], limit = 10) {
+  return request('/search-document', {
+    method: 'POST',
+    body: JSON.stringify({ document, query, entity_types: entityTypes, limit }),
+  })
+}
+
+export function uploadDocument(file) {
+  const form = new FormData()
+  form.append('file', file)
+  // Let the browser set the multipart Content-Type (with boundary); overriding
+  // the JSON default from the shared wrapper.
+  return request('/upload-document', {
+    method: 'POST',
+    body: form,
+    headers: {},
+  })
+}
+
+export function ask(question, context = '') {
   return request('/assistant', {
     method: 'POST',
     body: JSON.stringify({ context, question }),

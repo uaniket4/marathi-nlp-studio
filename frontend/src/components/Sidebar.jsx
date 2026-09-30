@@ -12,7 +12,6 @@ const SECTIONS = [
     title: 'Workspace',
     items: [
       { to: '/playground', label: 'NER Playground', icon: SparkIcon },
-      { to: '/extract', label: 'Information Extraction', icon: LayersIcon },
       { to: '/search', label: 'Search', icon: SearchIcon },
       { to: '/assistant', label: 'AI Assistant', icon: ChatIcon },
     ],
@@ -21,7 +20,6 @@ const SECTIONS = [
     title: 'Resources',
     items: [
       { to: '/model', label: 'Model & Dataset', icon: DatabaseIcon },
-      { to: '/about', label: 'About', icon: InfoIcon },
     ],
   },
 ]
@@ -122,14 +120,6 @@ function SparkIcon() {
     </svg>
   )
 }
-function LayersIcon() {
-  return (
-    <svg {...base}>
-      <path d="M12 2 2 7l10 5 10-5-10-5z" />
-      <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
-    </svg>
-  )
-}
 function SearchIcon() {
   return (
     <svg {...base}>
@@ -150,14 +140,6 @@ function DatabaseIcon() {
     <svg {...base}>
       <ellipse cx="12" cy="5" rx="8" ry="3" />
       <path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" />
-    </svg>
-  )
-}
-function InfoIcon() {
-  return (
-    <svg {...base}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 16v-4M12 8h.01" />
     </svg>
   )
 }

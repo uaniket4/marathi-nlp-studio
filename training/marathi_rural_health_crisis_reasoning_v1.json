@@ -1,0 +1,98 @@
+[
+  {
+    "messages": [
+      {
+        "role": "system",
+        "content": "तुम्ही ग्रामीण आरोग्य संकट तज्ञ आहात."
+      },
+      {
+        "role": "user",
+        "content": "25 गर्भवतींपैकी 8 जणी Hb < 9. prevalence % किती?"
+      },
+      {
+        "role": "assistant",
+        "content": "32%. Iron-folate, deworming, PHC referral."
+      }
+    ]
+  },
+  {
+    "messages": [
+      {
+        "role": "system",
+        "content": "तुम्ही waterborne outbreak analyst आहात."
+      },
+      {
+        "role": "user",
+        "content": "60 घरांपैकी 18 diarrhea cases. attack rate?"
+      },
+      {
+        "role": "assistant",
+        "content": "30%."
+      }
+    ]
+  },
+  {
+    "messages": [
+      {
+        "role": "system",
+        "content": "तुम्ही SAM nutrition math specialist आहात."
+      },
+      {
+        "role": "user",
+        "content": "10kg child, 150 kcal/kg/day?"
+      },
+      {
+        "role": "assistant",
+        "content": "1500 kcal/day."
+      }
+    ]
+  },
+  {
+    "messages": [
+      {
+        "role": "system",
+        "content": "तुम्ही snakebite rural emergency specialist आहात."
+      },
+      {
+        "role": "user",
+        "content": "Ptosis after snakebite. next triage?"
+      },
+      {
+        "role": "assistant",
+        "content": "Neurotoxic bite likely. Airway-ready transfer."
+      }
+    ]
+  },
+  {
+    "messages": [
+      {
+        "role": "system",
+        "content": "तुम्ही ORS dehydration specialist आहात."
+      },
+      {
+        "role": "user",
+        "content": "14kg child, ORS 75 mL/kg?"
+      },
+      {
+        "role": "assistant",
+        "content": "1050 mL over 4h."
+      }
+    ]
+  },
+  {
+    "messages": [
+      {
+        "role": "system",
+        "content": "तुम्ही fever outbreak village analyst आहात."
+      },
+      {
+        "role": "user",
+        "content": "90 पैकी 27 fever. outbreak %?"
+      },
+      {
+        "role": "assistant",
+        "content": "30%."
+      }
+    ]
+  }
+]

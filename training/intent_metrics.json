@@ -1,0 +1,137 @@
+{
+  "dataset": "training/intent_dataset.csv (manually curated, not public)",
+  "num_examples": 207,
+  "num_intents": 9,
+  "intents": [
+    "ALL_ENTITIES_QUERY",
+    "DATE_QUERY",
+    "DESIGNATION_QUERY",
+    "ENTITY_COUNT_QUERY",
+    "LOCATION_QUERY",
+    "MEASURE_QUERY",
+    "ORGANIZATION_QUERY",
+    "PERSON_QUERY",
+    "TIME_QUERY"
+  ],
+  "protocol": "5-fold stratified CV out-of-fold predictions (ML); deterministic keyword mapping (baseline). seed=42",
+  "ml_tfidf_logreg": {
+    "accuracy": 0.7295,
+    "macro_f1": 0.7313,
+    "per_class": {
+      "ALL_ENTITIES_QUERY": {
+        "precision": 0.875,
+        "recall": 0.913,
+        "f1": 0.8936,
+        "support": 23
+      },
+      "DATE_QUERY": {
+        "precision": 0.6364,
+        "recall": 0.6087,
+        "f1": 0.6222,
+        "support": 23
+      },
+      "DESIGNATION_QUERY": {
+        "precision": 0.7273,
+        "recall": 0.6957,
+        "f1": 0.7111,
+        "support": 23
+      },
+      "ENTITY_COUNT_QUERY": {
+        "precision": 0.95,
+        "recall": 0.8261,
+        "f1": 0.8837,
+        "support": 23
+      },
+      "LOCATION_QUERY": {
+        "precision": 0.5556,
+        "recall": 0.6522,
+        "f1": 0.6,
+        "support": 23
+      },
+      "MEASURE_QUERY": {
+        "precision": 0.64,
+        "recall": 0.6957,
+        "f1": 0.6667,
+        "support": 23
+      },
+      "ORGANIZATION_QUERY": {
+        "precision": 0.7619,
+        "recall": 0.6957,
+        "f1": 0.7273,
+        "support": 23
+      },
+      "PERSON_QUERY": {
+        "precision": 0.72,
+        "recall": 0.7826,
+        "f1": 0.75,
+        "support": 23
+      },
+      "TIME_QUERY": {
+        "precision": 0.7619,
+        "recall": 0.6957,
+        "f1": 0.7273,
+        "support": 23
+      }
+    }
+  },
+  "keyword_baseline": {
+    "accuracy": 0.4058,
+    "macro_f1": 0.384,
+    "per_class": {
+      "ALL_ENTITIES_QUERY": {
+        "precision": 0.6053,
+        "recall": 1.0,
+        "f1": 0.7541,
+        "support": 23
+      },
+      "DATE_QUERY": {
+        "precision": 1.0,
+        "recall": 0.2609,
+        "f1": 0.4138,
+        "support": 23
+      },
+      "DESIGNATION_QUERY": {
+        "precision": 1.0,
+        "recall": 0.1739,
+        "f1": 0.2963,
+        "support": 23
+      },
+      "ENTITY_COUNT_QUERY": {
+        "precision": 0.6364,
+        "recall": 0.6087,
+        "f1": 0.6222,
+        "support": 23
+      },
+      "LOCATION_QUERY": {
+        "precision": 1.0,
+        "recall": 0.1739,
+        "f1": 0.2963,
+        "support": 23
+      },
+      "MEASURE_QUERY": {
+        "precision": 1.0,
+        "recall": 0.1304,
+        "f1": 0.2308,
+        "support": 23
+      },
+      "ORGANIZATION_QUERY": {
+        "precision": 1.0,
+        "recall": 0.1304,
+        "f1": 0.2308,
+        "support": 23
+      },
+      "PERSON_QUERY": {
+        "precision": 0.187,
+        "recall": 1.0,
+        "f1": 0.3151,
+        "support": 23
+      },
+      "TIME_QUERY": {
+        "precision": 1.0,
+        "recall": 0.1739,
+        "f1": 0.2963,
+        "support": 23
+      }
+    }
+  }
+}

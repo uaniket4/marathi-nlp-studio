@@ -1,0 +1,156 @@
+{
+  "dataset": "training/coref_test.csv (manually annotated, rule-based demo)",
+  "method": "rule-based (type + recency + light number hints); NOT ML",
+  "num_examples": 18,
+  "accuracy": 1.0,
+  "details": [
+    {
+      "question": "ते कुठे राहत होते?",
+      "expected": "रतन टाटा",
+      "resolved": [
+        "रतन टाटा"
+      ],
+      "correct": true
+    },
+    {
+      "question": "तो कुठे खेळला?",
+      "expected": "सचिन तेंडुलकर",
+      "resolved": [
+        "सचिन तेंडुलकर"
+      ],
+      "correct": true
+    },
+    {
+      "question": "तिचा जन्म कुठे झाला?",
+      "expected": "लता मंगेशकर",
+      "resolved": [
+        "लता मंगेशकर"
+      ],
+      "correct": true
+    },
+    {
+      "question": "ते कुठे भेटले?",
+      "expected": "अमित शहा",
+      "resolved": [
+        "अमित शहा"
+      ],
+      "correct": true
+    },
+    {
+      "question": "ते तिथे का गेले?",
+      "expected": "डॉ. आंबेडकर",
+      "resolved": [
+        "डॉ. आंबेडकर",
+        "नागपूर"
+      ],
+      "correct": true
+    },
+    {
+      "question": "त्यांनी तिथे काय केले?",
+      "expected": "शिवाजी महाराज",
+      "resolved": [
+        "शिवाजी महाराज",
+        "रायगड"
+      ],
+      "correct": true
+    },
+    {
+      "question": "तो कुठे जन्मला?",
+      "expected": "पंडित नेहरू",
+      "resolved": [
+        "पंडित नेहरू"
+      ],
+      "correct": true
+    },
+    {
+      "question": "ती कुठली होती?",
+      "expected": "कल्पना चावला",
+      "resolved": [
+        "कल्पना चावला"
+      ],
+      "correct": true
+    },
+    {
+      "question": "ते कुठे आले?",
+      "expected": "रोहित शर्मा",
+      "resolved": [
+        "रोहित शर्मा"
+      ],
+      "correct": true
+    },
+    {
+      "question": "ते तिथे किती वर्षे राहिले?",
+      "expected": "महात्मा गांधी",
+      "resolved": [
+        "महात्मा गांधी",
+        "साबरमती आश्रम"
+      ],
+      "correct": true
+    },
+    {
+      "question": "तो कुठला होता?",
+      "expected": "अब्दुल कलाम",
+      "resolved": [
+        "अब्दुल कलाम"
+      ],
+      "correct": true
+    },
+    {
+      "question": "ती कुठे राहत होती?",
+      "expected": "इंदिरा गांधी",
+      "resolved": [
+        "इंदिरा गांधी"
+      ],
+      "correct": true
+    },
+    {
+      "question": "तिथे किती लोक राहतात?",
+      "expected": "पुणे",
+      "resolved": [
+        "पुणे"
+      ],
+      "correct": true
+    },
+    {
+      "question": "त्यांनी ती कधी स्थापन केली?",
+      "expected": "बाळासाहेब ठाकरे",
+      "resolved": [
+        "बाळासाहेब ठाकरे"
+      ],
+      "correct": true
+    },
+    {
+      "question": "ती कुठे गेली?",
+      "expected": "सुनीता विल्यम्स",
+      "resolved": [
+        "सुनीता विल्यम्स"
+      ],
+      "correct": true
+    },
+    {
+      "question": "तो कुठला होता?",
+      "expected": "अटल बिहारी वाजपेयी",
+      "resolved": [
+        "अटल बिहारी वाजपेयी"
+      ],
+      "correct": true
+    },
+    {
+      "question": "त्यांनी काय केले?",
+      "expected": "सरदार पटेल",
+      "resolved": [
+        "सरदार पटेल"
+      ],
+      "correct": true
+    },
+    {
+      "question": "ती तिथे काय करत होती?",
+      "expected": "मदर तेरेसा",
+      "resolved": [
+        "मदर तेरेसा",
+        "कोलकाता"
+      ],
+      "correct": true
+    }
+  ]
+}

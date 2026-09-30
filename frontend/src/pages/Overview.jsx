@@ -7,25 +7,19 @@ const APPS = [
   {
     to: '/playground',
     title: 'NER Playground',
-    desc: 'Analyze any Marathi text and see recognized entities highlighted inline, tabulated and counted.',
+    desc: 'Analyze any Marathi text: see entities highlighted, tabulated and counted, walk the full classical-NLP pipeline, and export the results as JSON / CSV.',
     accent: 'text-blue-600 dark:text-blue-400',
-  },
-  {
-    to: '/extract',
-    title: 'Information Extraction',
-    desc: 'Turn unstructured text into structured, typed entity lists you can copy or download as JSON / CSV.',
-    accent: 'text-emerald-600 dark:text-emerald-400',
   },
   {
     to: '/search',
     title: 'Search',
-    desc: 'Search a Marathi demo corpus with entity-aware ranking and entity-type filters.',
+    desc: 'Search a Marathi demo corpus or your own document with entity-aware ranking, entity-type filters and a step-by-step view of how each search runs.',
     accent: 'text-amber-600 dark:text-amber-400',
   },
   {
     to: '/assistant',
     title: 'AI Assistant',
-    desc: 'Ask questions about a passage in Marathi; answers are derived directly from recognized entities.',
+    desc: 'Ask questions in Marathi; answers are retrieved live from Marathi Wikipedia and grounded with on-device NER — deterministic, no external LLM.',
     accent: 'text-rose-600 dark:text-rose-400',
   },
 ]
@@ -104,8 +98,9 @@ export default function Overview() {
       </div>
 
       <p className="mt-6 text-xs text-gray-400 dark:text-gray-500">
-        All four tools are powered by the same fine-tuned Marathi NER model — no
-        external APIs, no fabricated results.
+        Every tool is powered by the same fine-tuned Marathi NER model — no
+        fabricated results. The assistant additionally retrieves live from
+        Marathi Wikipedia; no external LLM is used anywhere.
       </p>
     </div>
   )

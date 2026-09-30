@@ -1,7 +1,10 @@
 # Training/evaluation dependencies. The backend requirements are a subset;
 # install these to run training/train.py and training/evaluate.py.
+# scikit-learn is DEV-ONLY: it trains the intent classifier, whose parameters
+# are exported to JSON and run in pure numpy at runtime (no sklearn in prod).
 torch>=2.2
 transformers>=4.44
 seqeval>=1.2.2
+scikit-learn>=1.3
 numpy>=1.26
 python-dotenv>=1.0

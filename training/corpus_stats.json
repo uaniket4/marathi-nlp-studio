@@ -1,0 +1,131 @@
+{
+  "corpus": "L3Cube-MahaNER train split (public Marathi text)",
+  "total_tokens": 198367,
+  "unique_types": 37492,
+  "type_token_ratio": 0.189,
+  "stopword_coverage": 0.1211,
+  "top_stopwords": [
+    {
+      "word": "आहे",
+      "count": 6615
+    },
+    {
+      "word": "या",
+      "count": 2775
+    },
+    {
+      "word": "आहेत",
+      "count": 1826
+    },
+    {
+      "word": "आणि",
+      "count": 1736
+    },
+    {
+      "word": "नाही",
+      "count": 1084
+    },
+    {
+      "word": "हे",
+      "count": 993
+    },
+    {
+      "word": "होते",
+      "count": 987
+    },
+    {
+      "word": "ही",
+      "count": 797
+    },
+    {
+      "word": "होता",
+      "count": 691
+    },
+    {
+      "word": "यांनी",
+      "count": 691
+    }
+  ],
+  "top_content_words": [
+    {
+      "word": "केली",
+      "count": 991
+    },
+    {
+      "word": "करण्यात",
+      "count": 945
+    },
+    {
+      "word": "सुरू",
+      "count": 762
+    },
+    {
+      "word": "तर",
+      "count": 725
+    },
+    {
+      "word": "आले",
+      "count": 713
+    },
+    {
+      "word": "हा",
+      "count": 707
+    },
+    {
+      "word": "काही",
+      "count": 693
+    },
+    {
+      "word": "त्यामुळे",
+      "count": 675
+    },
+    {
+      "word": "मात्र",
+      "count": 619
+    },
+    {
+      "word": "केले",
+      "count": 614
+    },
+    {
+      "word": "केला",
+      "count": 610
+    },
+    {
+      "word": "आली",
+      "count": 564
+    },
+    {
+      "word": "त्यांनी",
+      "count": 556
+    },
+    {
+      "word": "झाली",
+      "count": 549
+    },
+    {
+      "word": "आता",
+      "count": 501
+    },
+    {
+      "word": "झाले",
+      "count": 465
+    },
+    {
+      "word": "झाला",
+      "count": 464
+    },
+    {
+      "word": "करोना",
+      "count": 460
+    },
+    {
+      "word": "आला",
+      "count": 419
+    },
+    {
+      "word": "अनेक",
+      "count": 419
+    }
+  ]
+}

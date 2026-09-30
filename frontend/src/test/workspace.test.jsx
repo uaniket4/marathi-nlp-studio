@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import InformationExtraction from '../pages/InformationExtraction'
 import Assistant from '../pages/Assistant'
 import Search from '../pages/Search'
 import * as api from '../services/api'
@@ -10,35 +9,42 @@ vi.mock('../services/api')
 
 beforeEach(() => vi.clearAllMocks())
 
-describe('InformationExtraction', () => {
-  it('renders grouped entities after extraction', async () => {
-    api.extract.mockResolvedValue({
-      text: 'रतन टाटा',
-      entities: [{ text: 'रतन टाटा', label: 'PERSON', start: 0, end: 8, confidence: 0.99 }],
-      grouped: { PERSON: ['रतन टाटा'] },
-      statistics: { PERSON: 1 },
-    })
-    render(<InformationExtraction />)
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'रतन टाटा' } })
-    fireEvent.click(screen.getByRole('button', { name: /extract entities/i }))
-    await waitFor(() => expect(screen.getByText('रतन टाटा')).toBeInTheDocument())
-    expect(screen.getByRole('button', { name: /copy json/i })).toBeInTheDocument()
-  })
-})
-
 describe('Assistant', () => {
-  it('sends a question and shows the derived answer', async () => {
+  it('sends a question and shows the retrieved answer', async () => {
     api.ask.mockResolvedValue({
-      answer: 'या मजकुरात 1 व्यक्तींचा उल्लेख आहे:\n1. मोदी',
-      intent: { types: ['PERSON'], is_count: false, is_all: false },
-      entities: [{ text: 'मोदी', label: 'PERSON', start: 0, end: 4, confidence: 0.97 }],
+      answer: 'नवी दिल्ली ही भारताची राजधानी आहे.\n\nस्रोत: विकिपीडिया — नवी दिल्ली',
+      intent: { types: [], is_count: false, is_all: false },
+      entities: [{ text: 'नवी दिल्ली', label: 'LOCATION', start: 0, end: 10, confidence: 0.97 }],
+      sources: [{ title: 'नवी दिल्ली', url: 'https://mr.wikipedia.org/wiki/नवी_दिल्ली' }],
     })
     render(<Assistant />)
-    const boxes = screen.getAllByRole('textbox')
-    fireEvent.change(boxes[0], { target: { value: 'मोदी यांनी भाषण केले.' } })
-    fireEvent.change(boxes[1], { target: { value: 'कोणत्या व्यक्ती आहेत?' } })
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: { value: 'भारताची राजधानी कोणती?' },
+    })
     fireEvent.click(screen.getByRole('button', { name: /send/i }))
-    await waitFor(() => expect(screen.getByText(/व्यक्तींचा उल्लेख/)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText(/भारताची राजधानी/)).toBeInTheDocument())
+    expect(api.ask).toHaveBeenCalledWith('भारताची राजधानी कोणती?', '')
+  })
+
+  it('shows detected intent + coreference on a context-grounded follow-up', async () => {
+    api.ask.mockResolvedValue({
+      answer: 'या मजकुरात 1 व्यक्तींचा उल्लेख आहे:\n1. रतन टाटा',
+      intent: { types: ['PERSON'], is_count: false, is_all: false },
+      entities: [{ text: 'रतन टाटा', label: 'PERSON', start: 0, end: 8, confidence: 0.99 }],
+      sources: [],
+      intent_label: 'PERSON_QUERY',
+      intent_confidence: 0.98,
+      coref_links: [{ mention: 'ते', antecedent: 'रतन टाटा', type: 'PERSON' }],
+      context_used: 'रतन टाटा हे मुंबई येथे राहत होते.',
+    })
+    render(<Assistant />)
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: { value: 'ते कोण आहेत?' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: /send/i }))
+    await waitFor(() => expect(screen.getByText('PERSON_QUERY')).toBeInTheDocument())
+    expect(screen.getByText(/98% confidence/)).toBeInTheDocument()
+    expect(screen.getByText(/ते → रतन टाटा/)).toBeInTheDocument()
   })
 })
 

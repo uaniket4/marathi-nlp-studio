@@ -1,0 +1,208 @@
+text,intent
+या मजकुरात कोणत्या व्यक्ती आहेत?,PERSON_QUERY
+मजकुरात कोणकोणत्या व्यक्तींचा उल्लेख आहे?,PERSON_QUERY
+येथे कोणत्या माणसांची नावे आली आहेत?,PERSON_QUERY
+या उताऱ्यात कोण कोण आहेत?,PERSON_QUERY
+मजकुरातील व्यक्तींची नावे सांगा,PERSON_QUERY
+कोणत्या लोकांचा उल्लेख येथे आहे?,PERSON_QUERY
+या मजकुरात कोणाची नावे आहेत?,PERSON_QUERY
+येथे उल्लेख केलेल्या व्यक्ती कोणत्या?,PERSON_QUERY
+मजकुरात कोणत्या प्रसिद्ध व्यक्ती आहेत?,PERSON_QUERY
+which persons are mentioned in this text?,PERSON_QUERY
+list the people named in the passage,PERSON_QUERY
+या परिच्छेदात कोणत्या व्यक्तींची माहिती आहे?,PERSON_QUERY
+मजकुरात कोणत्या व्यक्तीचे नाव आले आहे?,PERSON_QUERY
+येथे कोणत्या व्यक्तींचा संदर्भ आहे?,PERSON_QUERY
+उताऱ्यातील माणसांची नावे कोणती?,PERSON_QUERY
+या मजकुरात कोणती ठिकाणे आहेत?,LOCATION_QUERY
+मजकुरात कोणकोणत्या ठिकाणांचा उल्लेख आहे?,LOCATION_QUERY
+येथे कोणती शहरे आली आहेत?,LOCATION_QUERY
+या उताऱ्यात कोणती गावे आहेत?,LOCATION_QUERY
+मजकुरातील ठिकाणांची नावे सांगा,LOCATION_QUERY
+कोणत्या स्थळांचा उल्लेख येथे आहे?,LOCATION_QUERY
+या मजकुरात कोणते प्रदेश आले आहेत?,LOCATION_QUERY
+येथे उल्लेख केलेली ठिकाणे कोणती?,LOCATION_QUERY
+मजकुरात कोणत्या देशांचा उल्लेख आहे?,LOCATION_QUERY
+which places are mentioned in this text?,LOCATION_QUERY
+list the locations in the passage,LOCATION_QUERY
+या परिच्छेदात कोणती ठिकाणे दिली आहेत?,LOCATION_QUERY
+मजकुरात कोणते शहर आले आहे?,LOCATION_QUERY
+येथे कोणत्या ठिकाणाचा संदर्भ आहे?,LOCATION_QUERY
+उताऱ्यातील स्थळांची नावे कोणती?,LOCATION_QUERY
+या मजकुरात कोणत्या संस्था आहेत?,ORGANIZATION_QUERY
+मजकुरात कोणकोणत्या संस्थांचा उल्लेख आहे?,ORGANIZATION_QUERY
+येथे कोणत्या कंपन्या आल्या आहेत?,ORGANIZATION_QUERY
+या उताऱ्यात कोणत्या संघटना आहेत?,ORGANIZATION_QUERY
+मजकुरातील संस्थांची नावे सांगा,ORGANIZATION_QUERY
+कोणत्या पक्षांचा उल्लेख येथे आहे?,ORGANIZATION_QUERY
+या मजकुरात कोणते संघ आले आहेत?,ORGANIZATION_QUERY
+येथे उल्लेख केलेल्या संस्था कोणत्या?,ORGANIZATION_QUERY
+मजकुरात कोणत्या कंपनीचे नाव आहे?,ORGANIZATION_QUERY
+which organizations are mentioned in this text?,ORGANIZATION_QUERY
+list the companies in the passage,ORGANIZATION_QUERY
+या परिच्छेदात कोणत्या संघटनांचा संदर्भ आहे?,ORGANIZATION_QUERY
+मजकुरात कोणती संस्था आली आहे?,ORGANIZATION_QUERY
+येथे कोणत्या राजकीय पक्षाचा उल्लेख आहे?,ORGANIZATION_QUERY
+उताऱ्यातील संस्थांची नावे कोणती?,ORGANIZATION_QUERY
+या मजकुरात कोणत्या तारखा आहेत?,DATE_QUERY
+मजकुरात कोणकोणत्या तारखांचा उल्लेख आहे?,DATE_QUERY
+येथे कोणते दिनांक आले आहेत?,DATE_QUERY
+ही घटना कधी घडली?,DATE_QUERY
+मजकुरातील तारखा सांगा,DATE_QUERY
+या उताऱ्यात कोणत्या दिवशीचा उल्लेख आहे?,DATE_QUERY
+येथे कोणत्या वर्षाचा उल्लेख आहे?,DATE_QUERY
+या मजकुरात कोणती तारीख दिली आहे?,DATE_QUERY
+मजकुरात कधीचा संदर्भ आहे?,DATE_QUERY
+which dates are mentioned in this text?,DATE_QUERY
+list the dates in the passage,DATE_QUERY
+या परिच्छेदात कोणत्या तारखांचा उल्लेख आहे?,DATE_QUERY
+येथे कोणता दिनांक नोंदवला आहे?,DATE_QUERY
+मजकुरात जन्मतारीख कोणती आहे?,DATE_QUERY
+उताऱ्यातील तारखा कोणत्या?,DATE_QUERY
+या मजकुरात कोणत्या वेळा आहेत?,TIME_QUERY
+मजकुरात कोणत्या वेळेचा उल्लेख आहे?,TIME_QUERY
+ही घटना किती वाजता घडली?,TIME_QUERY
+येथे कोणता समय आला आहे?,TIME_QUERY
+मजकुरातील वेळा सांगा,TIME_QUERY
+या उताऱ्यात कोणत्या वेळेचा संदर्भ आहे?,TIME_QUERY
+येथे किती वाजताचा उल्लेख आहे?,TIME_QUERY
+या मजकुरात कोणती वेळ दिली आहे?,TIME_QUERY
+what time is mentioned in this text?,TIME_QUERY
+list the times in the passage,TIME_QUERY
+या परिच्छेदात कोणत्या वेळेचा उल्लेख आहे?,TIME_QUERY
+मजकुरात सकाळ की संध्याकाळ असा उल्लेख आहे?,TIME_QUERY
+येथे कोणता कालावधी नोंदवला आहे?,TIME_QUERY
+उताऱ्यातील वेळा कोणत्या?,TIME_QUERY
+मजकुरात कोणत्या क्षणाचा उल्लेख आहे?,TIME_QUERY
+या मजकुरात कोणती परिमाणे आहेत?,MEASURE_QUERY
+मजकुरात कोणत्या मोजमापांचा उल्लेख आहे?,MEASURE_QUERY
+येथे कोणती मापे आली आहेत?,MEASURE_QUERY
+या उताऱ्यात किती अंतर किंवा वजन दिले आहे?,MEASURE_QUERY
+मजकुरातील परिमाणे सांगा,MEASURE_QUERY
+येथे कोणत्या संख्येचा उल्लेख आहे?,MEASURE_QUERY
+या मजकुरात किती टक्के असा उल्लेख आहे?,MEASURE_QUERY
+येथे कोणते माप नोंदवले आहे?,MEASURE_QUERY
+which measures are mentioned in this text?,MEASURE_QUERY
+list the quantities in the passage,MEASURE_QUERY
+या परिच्छेदात कोणत्या परिमाणांचा उल्लेख आहे?,MEASURE_QUERY
+मजकुरात किती किलोमीटर असा उल्लेख आहे?,MEASURE_QUERY
+येथे रकमेचा उल्लेख कोणता आहे?,MEASURE_QUERY
+उताऱ्यातील मापे कोणती?,MEASURE_QUERY
+मजकुरात कोणते प्रमाण दिले आहे?,MEASURE_QUERY
+या मजकुरात कोणती पदनामे आहेत?,DESIGNATION_QUERY
+मजकुरात कोणत्या पदांचा उल्लेख आहे?,DESIGNATION_QUERY
+येथे कोणते हुद्दे आले आहेत?,DESIGNATION_QUERY
+या उताऱ्यात कोणत्या पदावरील व्यक्ती आहे?,DESIGNATION_QUERY
+मजकुरातील पदनामे सांगा,DESIGNATION_QUERY
+येथे कोणत्या अधिकारपदाचा उल्लेख आहे?,DESIGNATION_QUERY
+या मजकुरात कोणता हुद्दा दिला आहे?,DESIGNATION_QUERY
+येथे उल्लेख केलेली पदे कोणती?,DESIGNATION_QUERY
+which designations are mentioned in this text?,DESIGNATION_QUERY
+list the titles in the passage,DESIGNATION_QUERY
+या परिच्छेदात कोणत्या पदनामांचा उल्लेख आहे?,DESIGNATION_QUERY
+मजकुरात मंत्री किंवा अध्यक्ष असा उल्लेख आहे का?,DESIGNATION_QUERY
+येथे कोणत्या पदाचा संदर्भ आहे?,DESIGNATION_QUERY
+उताऱ्यातील पदनामे कोणती?,DESIGNATION_QUERY
+मजकुरात कोणते अधिकारपद नोंदवले आहे?,DESIGNATION_QUERY
+या मजकुरातील सर्व नावे दाखवा,ALL_ENTITIES_QUERY
+मजकुरातील सगळ्या entities दाखवा,ALL_ENTITIES_QUERY
+येथील सर्व ओळखलेली नावे सांगा,ALL_ENTITIES_QUERY
+या उताऱ्यातील सारे entities कोणते?,ALL_ENTITIES_QUERY
+मजकुरातील सगळे उल्लेख दाखवा,ALL_ENTITIES_QUERY
+या मजकुरात ओळखलेली सर्व नावे कोणती?,ALL_ENTITIES_QUERY
+सर्व प्रकारची नावे एकत्र दाखवा,ALL_ENTITIES_QUERY
+येथे कोणकोणते entities आहेत ते सर्व सांगा,ALL_ENTITIES_QUERY
+show all entities in this text,ALL_ENTITIES_QUERY
+list every named entity in the passage,ALL_ENTITIES_QUERY
+या परिच्छेदातील सगळ्या नावांची यादी द्या,ALL_ENTITIES_QUERY
+मजकुरातील प्रत्येक entity दाखवा,ALL_ENTITIES_QUERY
+येथील सर्व प्रकारचे उल्लेख कोणते?,ALL_ENTITIES_QUERY
+या मजकुरातील समस्त नावे सांगा,ALL_ENTITIES_QUERY
+सगळी ओळखलेली नावे एकत्रित दाखवा,ALL_ENTITIES_QUERY
+या मजकुरात एकूण किती नावे आहेत?,ENTITY_COUNT_QUERY
+मजकुरात किती entities ओळखली गेली?,ENTITY_COUNT_QUERY
+येथे एकूण किती उल्लेख आहेत?,ENTITY_COUNT_QUERY
+या उताऱ्यात किती नावे आढळली?,ENTITY_COUNT_QUERY
+मजकुरातील entities ची संख्या किती?,ENTITY_COUNT_QUERY
+येथे एकूण किती नावांचा उल्लेख आहे?,ENTITY_COUNT_QUERY
+या मजकुरात किती entities सापडली?,ENTITY_COUNT_QUERY
+ओळखलेल्या नावांची एकूण संख्या किती?,ENTITY_COUNT_QUERY
+how many entities are in this text?,ENTITY_COUNT_QUERY
+what is the total count of named entities?,ENTITY_COUNT_QUERY
+या परिच्छेदात किती नावे आहेत ते सांगा,ENTITY_COUNT_QUERY
+मजकुरात एकूण किती उल्लेख सापडले?,ENTITY_COUNT_QUERY
+येथे किती entities ची नोंद आहे?,ENTITY_COUNT_QUERY
+या मजकुरातील नावांची संख्या सांगा,ENTITY_COUNT_QUERY
+एकूण किती नावे ओळखता आली?,ENTITY_COUNT_QUERY
+मजकुरात कोण कोण व्यक्ती आहेत ते सांगा,PERSON_QUERY
+या लेखात कोणत्या व्यक्तिमत्त्वांचा उल्लेख आहे?,PERSON_QUERY
+उताऱ्यात कोणत्या नेत्यांची नावे आहेत?,PERSON_QUERY
+here कोणत्या व्यक्ती आहेत,PERSON_QUERY
+वरील मजकुरात व्यक्ती कोणत्या?,PERSON_QUERY
+या बातमीत कोणत्या व्यक्ती आहेत?,PERSON_QUERY
+मजकुरात कोणत्या खेळाडूंची नावे आली?,PERSON_QUERY
+person names in this passage?,PERSON_QUERY
+वरील उताऱ्यात कोणती ठिकाणे आहेत?,LOCATION_QUERY
+या बातमीत कोणत्या ठिकाणांचा उल्लेख आहे?,LOCATION_QUERY
+मजकुरात कोणत्या राज्यांचा उल्लेख आहे?,LOCATION_QUERY
+here कोणती ठिकाणे आहेत,LOCATION_QUERY
+या लेखात कोणती स्थळे आली आहेत?,LOCATION_QUERY
+उताऱ्यात कोणत्या नद्या किंवा पर्वतांचा उल्लेख आहे?,LOCATION_QUERY
+place names in this passage?,LOCATION_QUERY
+मजकुरात कोणते ठिकाण महत्त्वाचे आहे?,LOCATION_QUERY
+वरील मजकुरात कोणत्या संस्था आहेत?,ORGANIZATION_QUERY
+या बातमीत कोणत्या संस्थांचा उल्लेख आहे?,ORGANIZATION_QUERY
+मजकुरात कोणत्या शासकीय संस्था आहेत?,ORGANIZATION_QUERY
+here कोणत्या संस्था आहेत,ORGANIZATION_QUERY
+या लेखात कोणत्या मंडळांचा उल्लेख आहे?,ORGANIZATION_QUERY
+organization names in this passage?,ORGANIZATION_QUERY
+उताऱ्यात कोणत्या शैक्षणिक संस्था आहेत?,ORGANIZATION_QUERY
+मजकुरात कोणत्या क्रीडा संघांचा उल्लेख आहे?,ORGANIZATION_QUERY
+वरील उताऱ्यात कोणत्या तारखा आहेत?,DATE_QUERY
+या बातमीत कोणत्या तारखांचा उल्लेख आहे?,DATE_QUERY
+मजकुरात कोणत्या सणाची तारीख आहे?,DATE_QUERY
+here कोणत्या तारखा आहेत,DATE_QUERY
+या लेखात कोणते साल आले आहे?,DATE_QUERY
+dates in this passage?,DATE_QUERY
+उताऱ्यात कोणत्या महिन्याचा उल्लेख आहे?,DATE_QUERY
+मजकुरात स्थापनेची तारीख कोणती?,DATE_QUERY
+वरील उताऱ्यात कोणत्या वेळा आहेत?,TIME_QUERY
+या बातमीत कोणत्या वेळेचा उल्लेख आहे?,TIME_QUERY
+मजकुरात कार्यक्रम किती वाजता आहे?,TIME_QUERY
+here कोणती वेळ आहे,TIME_QUERY
+या लेखात कोणत्या प्रहराचा उल्लेख आहे?,TIME_QUERY
+times in this passage?,TIME_QUERY
+उताऱ्यात दुपार की रात्र असा उल्लेख आहे?,TIME_QUERY
+मजकुरात कोणती घटिका नोंदवली आहे?,TIME_QUERY
+वरील उताऱ्यात कोणती परिमाणे आहेत?,MEASURE_QUERY
+या बातमीत कोणत्या मोजमापांचा उल्लेख आहे?,MEASURE_QUERY
+मजकुरात किती रुपये असा उल्लेख आहे?,MEASURE_QUERY
+here कोणती परिमाणे आहेत,MEASURE_QUERY
+या लेखात कोणते वजन दिले आहे?,MEASURE_QUERY
+measures in this passage?,MEASURE_QUERY
+उताऱ्यात किती मीटर असा उल्लेख आहे?,MEASURE_QUERY
+मजकुरात लोकसंख्येचा आकडा कोणता?,MEASURE_QUERY
+वरील उताऱ्यात कोणती पदनामे आहेत?,DESIGNATION_QUERY
+या बातमीत कोणत्या पदांचा उल्लेख आहे?,DESIGNATION_QUERY
+मजकुरात कोणत्या अधिकाऱ्याचे पद आहे?,DESIGNATION_QUERY
+here कोणती पदे आहेत,DESIGNATION_QUERY
+या लेखात कोणत्या हुद्द्याचा उल्लेख आहे?,DESIGNATION_QUERY
+designations in this passage?,DESIGNATION_QUERY
+उताऱ्यात राष्ट्रपती किंवा पंतप्रधान असा उल्लेख आहे का?,DESIGNATION_QUERY
+मजकुरात कोणते सन्मानपद दिले आहे?,DESIGNATION_QUERY
+वरील मजकुरातील सर्व नावे दाखवा,ALL_ENTITIES_QUERY
+या बातमीतील सगळ्या entities दाखवा,ALL_ENTITIES_QUERY
+मजकुरातील सर्व प्रकारची नावे यादीत द्या,ALL_ENTITIES_QUERY
+सगळे ओळखलेले उल्लेख दाखवा,ALL_ENTITIES_QUERY
+या लेखातील प्रत्येक नाव सांगा,ALL_ENTITIES_QUERY
+show me all named entities here,ALL_ENTITIES_QUERY
+उताऱ्यातील समस्त entities कोणते?,ALL_ENTITIES_QUERY
+सर्व नावे एकाच ठिकाणी दाखवा,ALL_ENTITIES_QUERY
+वरील मजकुरात एकूण किती नावे आहेत?,ENTITY_COUNT_QUERY
+या बातमीत किती entities आढळली?,ENTITY_COUNT_QUERY
+मजकुरात एकूण किती उल्लेख आहेत ते मोजा,ENTITY_COUNT_QUERY
+ओळखलेल्या नावांची गणती किती?,ENTITY_COUNT_QUERY
+या लेखात किती नावे सापडली?,ENTITY_COUNT_QUERY
+count the named entities here,ENTITY_COUNT_QUERY
+उताऱ्यात एकूण किती entities ची नोंद आहे?,ENTITY_COUNT_QUERY
+मजकुरात नावांची एकूण संख्या किती आहे?,ENTITY_COUNT_QUERY
