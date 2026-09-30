@@ -1,10 +1,6 @@
 # Datasets
 
-This project uses **one public dataset** (for NER), the **pretrained model's**
-own training corpus (referenced, not re-downloaded), and **one manually-curated
-dataset** (for intent classification). Coreference uses a tiny manually-annotated
-test set for demonstration only. Nothing here is fabricated; licenses are taken
-from the original sources.
+This project uses public datasets for NER and health retrieval, the **pretrained model's** own training corpus, manually-curated datasets for intent classification & health retrieval, and a small manually-annotated coreference test set. Nothing here is fabricated; licenses are taken from the original sources.
 
 ---
 
@@ -72,8 +68,23 @@ script. `training/prepare_ner_data.py` verifies and describes it.
 
 ---
 
+## 5. Health Chatbot Retrieval Datasets (CURATED & PUBLIC)
+
+| Field | Value |
+|---|---|
+| **Datasets** | `training/health_corpus.txt` & `training/marathi_rural_health_crisis_reasoning_v1.json` |
+| **Origin** | `health_corpus.txt`: Manually curated Marathi health sentences (project-internal).<br>`marathi_rural_health_crisis_reasoning_v1.json`: Public Kaggle dataset. |
+| **Source / URL** | https://www.kaggle.com/datasets/jayarajmaitreyaa/marathi-rural-health-crisis-reasoning-v1 |
+| **Task** | Sentence retrieval for health QA chatbot (TF-IDF cosine similarity) |
+| **License** | Project-internal (`health_corpus.txt`) / **Apache 2.0** (Kaggle dataset) |
+| **Usage here** | Indexed by `training/train_chatbot.py` to generate `backend/data/chatbot.json` and `backend/data/chatbot_matrix.npz`. Executed at runtime in pure numpy (`backend/app/chatbot.py`). |
+
+---
+
 ### Honesty notes
 - NER metrics come from a real seqeval run over the 1,999-sentence public test split.
 - Intent metrics come from a real scikit-learn + numpy run (5-fold CV, seed 42).
 - Coreference accuracy is on a small manually-annotated set and is a rule-based demo.
+- Chatbot retrieval uses offline TF-IDF indexing over curated and open health corpora (no LLM).
 - No LLM is used anywhere in training, evaluation, or runtime.
+
